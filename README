@@ -1,0 +1,70 @@
+# ProGDN Real Visitor Information (RVI) Server 
+
+--------------------------------------------------------------------------------
+ Installation on CentOS 7
+--------------------------------------------------------------------------------
+
+1. Install dependencies from repository:
+
+   $ sudo yum install epel-release
+   $ sudo yum install wget gcc gcc-c++ glibc-static libstdc++-static cmake
+
+2. Install Boost 1.69 (https://www.boost.org)
+    
+   $ cd ~
+   $ wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz
+   $ tar xvf boost_1_69_0.tar.gz
+   $ cd boost_1_69_0
+   $ ./bootstrap.sh
+   $ ./b2 link=static
+   
+3. Unpack ProGDN RVI (replace <N> with program version):
+
+   $ cd ~
+   $ tar xvf progdn-rvi-<N>-src.tar.gz
+   $ cd progdn-rvi-<N>
+   
+4. Compile ProGDN RVI:
+
+   $ cmake . -DCMAKE_BUILD_TYPE=Release -DPROGDN_RVI_VERSION="`cat VERSION`" -DBOOST_ROOT=~/boost_1_69_0
+   $ make
+   
+--------------------------------------------------------------------------------
+ Running
+--------------------------------------------------------------------------------
+
+1. Set actual values in "progdn-rvi.conf" and "tune_iptables.sh"
+
+2. Tune iptables (active until reboot) :
+# ./tune_iptables.sh
+
+3. Run program:
+# ./progdn-rvi
+
+--------------------------------------------------------------------------------
+ Options of "progdn-rvi"
+--------------------------------------------------------------------------------
+
+"--background"
+  Run as daemon
+
+"--conf <path>"
+  Override path to configuration file (by default: progdn-rvi.conf* in current 
+  directory)
+
+"--verbose"
+  Enable logging to *syslog*
+  
+Use "--help" to see additional options.
+
+--------------------------------------------------------------------------------
+ Updating & Shutting down
+--------------------------------------------------------------------------------
+
+To perform graceful shutdown, send SIGTERM to running progdn-rvi:
+# killall progdn-rvi
+
+On receiving SIGTERM, progdn-rvi stops listening for a new connections, but
+continues to serve existing connections. Since that moment, it is allowed to 
+start progdn-rvi again (for example, updated version). First instance will be
+closed automatically, when last proxified connection is closed.
