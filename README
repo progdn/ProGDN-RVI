@@ -1,34 +1,47 @@
 # ProGDN Real Visitor Information (RVI) Server 
 
 --------------------------------------------------------------------------------
- Installation on CentOS 7
+ Installation
 --------------------------------------------------------------------------------
 
 1. Install dependencies from repository:
 
-   $ sudo yum install epel-release
-   $ sudo yum install wget gcc gcc-c++ glibc-static libstdc++-static cmake
+  (a) CentOS 7:
+    $ sudo yum install epel-release
+    $ sudo yum install wget gcc gcc-c++ glibc-static libstdc++-static cmake
 
-2. Install Boost 1.69 (https://www.boost.org)
+   (b) Ubuntu 18.04:
+    $ sudo apt-get install gcc g++ cmake
+
+2. Install Boost (https://www.boost.org)
     
-   $ cd ~
-   $ wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz
-   $ tar xvf boost_1_69_0.tar.gz
-   $ cd boost_1_69_0
-   $ ./bootstrap.sh
-   $ ./b2 link=static
+  $ cd ~
+
+  (a) Boost 1.69 for CentOS 7:
+    $ wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz
+    $ tar xvf boost_1_69_0.tar.gz
+    $ ln -s boost_1_69_0 boost
+
+  (b) Boost 1.67 for Ubuntu 18.04:
+    $ wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz
+    $ tar xvf boost_1_67_0.tar.gz
+    $ ln -s boost_1_67_0 boost
+
+  $ cd boost
+  $ ./bootstrap.sh
+  $ ./b2 link=static
    
 3. Unpack ProGDN RVI (replace <N> with program version):
 
-   $ cd ~
-   $ tar xvf progdn-rvi-<N>-src.tar.gz
-   $ cd progdn-rvi-<N>
+  $ cd ~
+  $ tar xvf progdn-rvi-<N>-src.tar.gz
+  $ cd progdn-rvi-<N>
    
 4. Compile ProGDN RVI:
 
-   $ cmake . -DCMAKE_BUILD_TYPE=Release -DPROGDN_RVI_VERSION="`cat VERSION`" -DBOOST_ROOT=~/boost_1_69_0
-   $ make
-   
+  $ cmake . -DCMAKE_BUILD_TYPE=Release -DPROGDN_RVI_VERSION="`cat VERSION`" -DBOOST_ROOT=~/boost
+  $ make
+
 --------------------------------------------------------------------------------
  Running
 --------------------------------------------------------------------------------

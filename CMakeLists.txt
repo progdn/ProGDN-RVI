@@ -13,7 +13,7 @@ else()
     add_definitions(-DPROGDN_RVI_VERSION="dev")
 endif()
 
-find_package(Boost 1.69 COMPONENTS coroutine context date_time iostreams filesystem program_options system thread REQUIRED)
+find_package(Boost 1.67 COMPONENTS coroutine context date_time iostreams filesystem program_options system thread REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
 # Disable warning: Boost.ASIO 1.69 still uses deprecated Boost.Coroutine
